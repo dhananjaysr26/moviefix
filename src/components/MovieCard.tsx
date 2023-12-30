@@ -2,8 +2,8 @@ import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 
 const MovieCard = ({movie}: any) => {
-  const {title, poster_path, overview, release_date} = movie;
-  console.log({title, poster_path, overview, release_date});
+  const {title, poster_path, release_date} = movie;
+  // console.log({title, poster_path, overview, release_date});
 
   return (
     <View style={styles.card}>
@@ -48,10 +48,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: 'black',
   },
   releaseDate: {
     fontStyle: 'italic',
     marginBottom: 5,
+    color: 'gray',
   },
   overview: {
     fontSize: 14,
