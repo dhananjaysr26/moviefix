@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, ScrollView, StyleSheet, View} from 'react-native';
 import {getMovies} from '../services/movies.services';
 import MovieCard from '../components/MovieCard';
 import Header from '../components/Header';
@@ -7,13 +7,10 @@ import Header from '../components/Header';
 const HomeScreen = () => {
   const [moviesData, setMoviesData] = useState<any>(null);
 
-  const renderItem = useCallback(({item}: any) => {
-    return (
-      <View key={item.id} style={styles.movieContainer}>
-        <MovieCard movie={item} />
-      </View>
-    );
-  }, []);
+  const renderMovie = useCallback(
+    ({item}: any) => <MovieCard movie={item} key={item.id} />,
+    [],
+  );
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -27,9 +24,17 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
-      {moviesData?.results && (
-        <FlatList data={moviesData?.results} renderItem={renderItem} />
-      )}
+      <ScrollView contentContainerStyle={styles.movieContainer}>
+        {moviesData?.results && (
+          <FlatList
+            data={moviesData?.results}
+            renderItem={renderMovie}
+            numColumns={2}
+            keyExtractor={item => item.id.toString()}
+            columnWrapperStyle={styles.column}
+          />
+        )}
+      </ScrollView>
     </View>
   );
 };
@@ -39,15 +44,17 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
-    height: 'auto',
   },
   movieContainer: {
-    flex: 1,
-    width: '100%',
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 20,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+  },
+  column: {
+    marginBottom: 20,
+    justifyContent: 'space-between',
+    gap: 10,
   },
 });

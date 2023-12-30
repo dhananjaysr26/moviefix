@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet, Text} from 'react-native';
 
 const MovieCard = ({movie}: any) => {
-  const {title, poster_path, release_date} = movie;
+  const {poster_path, title} = movie;
   // console.log({title, poster_path, overview, release_date});
 
   return (
@@ -13,7 +13,7 @@ const MovieCard = ({movie}: any) => {
       />
       <View style={styles.details}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.releaseDate}>Release Date: {release_date}</Text>
+        {/* <Text style={styles.releaseDate}>Release Date: {release_date}</Text> */}
       </View>
     </View>
   );
@@ -21,34 +21,35 @@ const MovieCard = ({movie}: any) => {
 
 const styles = StyleSheet.create({
   card: {
-    flexDirection: 'row',
-    borderRadius: 10,
-    backgroundColor: '#ffffff',
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    width: '100%',
+    flex: 1,
+    position: 'relative',
   },
   poster: {
-    width: 120,
-    height: 180,
+    width: '100%',
+    height: 280,
+    resizeMode: 'cover',
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
+    borderRadius: 10,
   },
   details: {
     flex: 1,
-    padding: 10,
+    padding: 6,
+    position: 'absolute',
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    bottom: 0,
+    borderRadius: 10,
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
   },
   title: {
-    fontSize: 18,
+    fontSize: 10,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: 'black',
+    color: 'white',
+    width: '100%',
   },
   releaseDate: {
     fontStyle: 'italic',
