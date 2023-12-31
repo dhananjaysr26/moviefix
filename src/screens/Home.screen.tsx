@@ -1,37 +1,40 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, ScrollView, StyleSheet, View} from 'react-native';
-import {getMovies} from '../services/movies.services';
+import React, {useCallback} from 'react';
+import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+
 import MovieCard from '../components/MovieCard';
+import {useGetMovies} from '../services/useMovies';
 import Header from '../components/Header';
 
 const HomeScreen = () => {
-  const [moviesData, setMoviesData] = useState<any>(null);
+  const {isError, error, isLoading, data, setYear, year} = useGetMovies();
 
   const renderMovie = useCallback(
     ({item}: any) => <MovieCard movie={item} key={item.id} />,
     [],
   );
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      const res: any = await getMovies();
-      console.log({res});
-      setMoviesData(res?.data);
-    };
-    fetchMovies();
-  }, []);
+  console.log('Start>>>>>>>>>>>>>');
+  console.log({isError, error, isLoading, data});
 
   return (
     <View style={styles.container}>
       <Header />
+      <Text style={styles.result}>
+        {data?.total_results} Found | Page :{data?.page} | Year :{year}
+      </Text>
       <ScrollView contentContainerStyle={styles.movieContainer}>
-        {moviesData?.results && (
+        <Text />
+        {data?.results && (
           <FlatList
-            data={moviesData?.results}
+            data={data?.results}
             renderItem={renderMovie}
             numColumns={2}
             keyExtractor={item => item.id.toString()}
             columnWrapperStyle={styles.column}
+            onEndReached={() => {
+              console.log('End Reached');
+              setYear(2014);
+            }}
+            onEndReachedThreshold={0.1}
           />
         )}
       </ScrollView>
@@ -56,5 +59,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: 'space-between',
     gap: 10,
+  },
+  result: {
+    color: 'gray',
+    paddingLeft: 20,
+    marginTop: 5,
   },
 });

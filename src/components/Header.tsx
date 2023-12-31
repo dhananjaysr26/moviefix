@@ -1,16 +1,19 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Filter from './Filter';
+import {useGetMoviesGenres} from '../services/useMovies';
 
-const Header = () => {
-  const genres = ['All', 'Action', 'Horror', 'Comedy', 'Drama', 'Sci-Fi'];
-
+interface HeaderProps {}
+const Header: React.FC<HeaderProps> = () => {
+  const {data, isLoading} = useGetMoviesGenres();
+  console.log('Header');
+  console.log({data});
   return (
     <View style={styles.headerContainer}>
       <View style={styles.header}>
         <Text style={styles.text}>MOVIEFIX</Text>
       </View>
-      <Filter genres={genres} />
+      {!isLoading && <Filter genres={data?.genres} />}
     </View>
   );
 };

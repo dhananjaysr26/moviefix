@@ -2,3 +2,4 @@
 
 
 npm start -- --reset-cache
+adb devices

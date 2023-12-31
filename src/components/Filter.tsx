@@ -7,8 +7,12 @@ import {
   ScrollView,
 } from 'react-native';
 
+interface GENRE {
+  id: number;
+  name: string;
+}
 interface FilterProps {
-  genres: string[];
+  genres: GENRE[];
 }
 
 const Filter: React.FC<FilterProps> = ({genres}) => {
@@ -16,11 +20,15 @@ const Filter: React.FC<FilterProps> = ({genres}) => {
   return (
     <View style={styles.filterContainer}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {genres.map((genre, index) => (
+        {genres.map((genre: GENRE, index: number) => (
           <TouchableOpacity
-            key={index}
-            style={[styles.filterItem, active === genre && styles.active]}>
-            <Text style={styles.filterText}>{genre}</Text>
+            key={genre.id}
+            style={[
+              styles.filterItem,
+              active === genre.name && styles.active,
+              index === 0 && styles.firstList,
+            ]}>
+            <Text style={styles.filterText}>{genre.name}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -38,9 +46,9 @@ const styles = StyleSheet.create({
   filterItem: {
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderRadius: 12,
+    borderRadius: 6,
     backgroundColor: '#f0283c',
-    marginLeft: 20,
+    marginLeft: 5,
     // marginRight: 10,
   },
   filterText: {
@@ -49,5 +57,8 @@ const styles = StyleSheet.create({
   },
   active: {
     backgroundColor: '#484848',
+  },
+  firstList: {
+    marginLeft: 20,
   },
 });
