@@ -1,43 +1,39 @@
 import React, {useCallback} from 'react';
-import {FlatList, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import MovieCard from '../components/MovieCard';
 import {useGetMovies} from '../services/useMovies';
 import Header from '../components/Header';
+import AppButton from '../common/ui/AppButton';
+import MovieSectionList from '../components/MovieSection';
 
 const HomeScreen = () => {
-  const {isError, error, isLoading, data, setYear, year} = useGetMovies();
+  const {data, hasNextPage, fetchNextPage, hasPreviousPage, fetchPreviousPage} =
+    useGetMovies();
 
-  const renderMovie = useCallback(
-    ({item}: any) => <MovieCard movie={item} key={item.id} />,
-    [],
+  const handlePageChange = useCallback(
+    (direction: 'previous' | 'next') => {
+      if (direction === 'previous' && hasPreviousPage) {
+        fetchPreviousPage();
+      } else if (direction === 'next' && hasNextPage) {
+        fetchNextPage();
+      }
+    },
+    [fetchPreviousPage, fetchNextPage, hasPreviousPage, hasNextPage],
   );
-  console.log('Start>>>>>>>>>>>>>');
-  console.log({isError, error, isLoading, data});
 
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.result}>
-        {data?.total_results} Found | Page :{data?.page} | Year :{year}
-      </Text>
-      <ScrollView contentContainerStyle={styles.movieContainer}>
-        <Text />
-        {data?.results && (
-          <FlatList
-            data={data?.results}
-            renderItem={renderMovie}
-            numColumns={2}
-            keyExtractor={item => item.id.toString()}
-            columnWrapperStyle={styles.column}
-            onEndReached={() => {
-              console.log('End Reached');
-              setYear(2014);
-            }}
-            onEndReachedThreshold={0.1}
-          />
-        )}
-      </ScrollView>
+      <View style={styles.buttons}>
+        <AppButton onPress={() => handlePageChange('previous')} title="<" />
+        <AppButton onPress={() => handlePageChange('next')} title=">" />
+      </View>
+      {data?.pages && (
+        <MovieSectionList
+          data={data.pages}
+          handlePageChange={handlePageChange}
+        />
+      )}
     </View>
   );
 };
@@ -55,14 +51,12 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
   },
-  column: {
-    marginBottom: 20,
+  buttons: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 10,
-  },
-  result: {
-    color: 'gray',
-    paddingLeft: 20,
-    marginTop: 5,
+    alignItems: 'center',
+    width: '100%',
+    paddingLeft: 15,
+    paddingRight: 15,
   },
 });

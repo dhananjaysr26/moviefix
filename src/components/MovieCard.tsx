@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Image, StyleSheet, Text} from 'react-native';
 
-const MovieCard = ({movie}: any) => {
-  const {poster_path, title} = movie;
+const MovieCard = ({item}: {item: any}) => {
+  const {poster_path, title} = item;
   // console.log({title, poster_path, overview, release_date});
 
   return (
@@ -21,9 +21,9 @@ const MovieCard = ({movie}: any) => {
 
 const styles = StyleSheet.create({
   card: {
-    width: '100%',
     flex: 1,
     position: 'relative',
+    width: '50%',
   },
   poster: {
     width: '100%',

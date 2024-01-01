@@ -6,8 +6,8 @@ import {useGetMoviesGenres} from '../services/useMovies';
 interface HeaderProps {}
 const Header: React.FC<HeaderProps> = () => {
   const {data, isLoading} = useGetMoviesGenres();
-  console.log('Header');
-  console.log({data});
+  // console.log('Header');
+  // console.log({data});
   return (
     <View style={styles.headerContainer}>
       <View style={styles.header}>
