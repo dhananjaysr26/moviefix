@@ -1,6 +1,6 @@
 import React from 'react';
 import {SectionList, StyleSheet, Text, View} from 'react-native';
-import MovieCard from './MovieCard';
+import RenderTwoColumn from './RenderTwoColumn';
 
 interface Movie {
   adult: boolean;
@@ -33,7 +33,7 @@ interface Props {
 const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
   const renderSectionHeader = (props: any) => {
     return (
-      <View style={{backgroundColor: 'gray'}}>
+      <View style={styles.sectionHeader}>
         <Text style={styles.headerText}>{props?.section?.title}</Text>
       </View>
     );
@@ -42,7 +42,7 @@ const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
   const EmptyCard = () => {
     return (
       <View>
-        <Text>Empty Card!</Text>
+        <Text>Movies Not Available</Text>
       </View>
     );
   };
@@ -59,7 +59,9 @@ const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
     <SectionList
       sections={sections}
       keyExtractor={(item, index) => item.id.toString() + index}
-      renderItem={MovieCard}
+      renderItem={({item, index, section}) => (
+        <RenderTwoColumn item={item} index={index} section={section} />
+      )}
       renderSectionHeader={renderSectionHeader}
       contentContainerStyle={styles.movieContainer}
       onEndReached={() => {
@@ -68,15 +70,14 @@ const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
       }}
       onStartReached={() => {
         console.log('Start Reached!');
-        handlePageChange('previous');
+        // handlePageChange('previous');
       }}
-      initialNumToRender={20}
       ListEmptyComponent={EmptyCard}
       //   TODO:Reset Function
       onRefresh={() => console.log('Refresh')}
       progressViewOffset={100}
       refreshing={false}
-      stickySectionHeadersEnabled
+      onEndReachedThreshold={0.5}
     />
   );
 };
@@ -84,17 +85,24 @@ const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
 export default MovieSectionList;
 
 const styles = StyleSheet.create({
-  text: {
-    color: 'black',
-  },
-  headerText: {
-    color: 'red',
-  },
   movieContainer: {
     marginBottom: 20,
     justifyContent: 'space-between',
     gap: 10,
     paddingLeft: 10,
     paddingRight: 10,
+    backgroundColor: '#504A4B',
+  },
+  sectionHeader: {
+    paddingBottom: 5,
+    paddingTop: 10,
+  },
+  text: {
+    color: 'black',
+  },
+  headerText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

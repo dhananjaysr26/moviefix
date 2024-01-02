@@ -3,7 +3,6 @@ import {StyleSheet, View} from 'react-native';
 
 import {useGetMovies} from '../services/useMovies';
 import Header from '../components/Header';
-import AppButton from '../common/ui/AppButton';
 import MovieSectionList from '../components/MovieSection';
 
 const HomeScreen = () => {
@@ -24,10 +23,10 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
-      <View style={styles.buttons}>
+      {/* <View style={styles.buttons}>
         <AppButton onPress={() => handlePageChange('previous')} title="<" />
         <AppButton onPress={() => handlePageChange('next')} title=">" />
-      </View>
+      </View> */}
       {data?.pages && (
         <MovieSectionList
           data={data.pages}
