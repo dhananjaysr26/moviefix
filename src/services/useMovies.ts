@@ -9,6 +9,7 @@ export const useGetMovies = () => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
+    isFetchingPreviousPage,
     status,
     hasPreviousPage,
     fetchPreviousPage,
@@ -59,6 +60,7 @@ export const useGetMovies = () => {
     status,
     hasPreviousPage,
     fetchPreviousPage,
+    isFetchingPreviousPage,
   };
 };
 

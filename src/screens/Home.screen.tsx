@@ -1,23 +1,38 @@
 import React, {useCallback} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import {useGetMovies} from '../services/useMovies';
 import Header from '../components/Header';
 import MovieSectionList from '../components/MovieSection';
+import SkeletonLoader from '../components/SkeletonLoader';
 
 const HomeScreen = () => {
-  const {data, hasNextPage, fetchNextPage, hasPreviousPage, fetchPreviousPage} =
-    useGetMovies();
+  const {
+    data,
+    hasNextPage,
+    fetchNextPage,
+    hasPreviousPage,
+    fetchPreviousPage,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    isFetching,
+  } = useGetMovies();
 
   const handlePageChange = useCallback(
     (direction: 'previous' | 'next') => {
-      if (direction === 'previous' && hasPreviousPage) {
+      if (direction === 'previous' && hasPreviousPage && !isFetching) {
         fetchPreviousPage();
-      } else if (direction === 'next' && hasNextPage) {
+      } else if (direction === 'next' && hasNextPage && !isFetching) {
         fetchNextPage();
       }
     },
-    [fetchPreviousPage, fetchNextPage, hasPreviousPage, hasNextPage],
+    [
+      hasPreviousPage,
+      isFetching,
+      hasNextPage,
+      fetchPreviousPage,
+      fetchNextPage,
+    ],
   );
 
   return (
@@ -27,12 +42,16 @@ const HomeScreen = () => {
         <AppButton onPress={() => handlePageChange('previous')} title="<" />
         <AppButton onPress={() => handlePageChange('next')} title=">" />
       </View> */}
+      {/* <ScrollView style={styles.container}> */}
+      {/* {isFetchingPreviousPage && <SkeletonLoader />} */}
       {data?.pages && (
         <MovieSectionList
           data={data.pages}
           handlePageChange={handlePageChange}
         />
       )}
+      {/* {isFetchingNextPage && <SkeletonLoader />} */}
+      {/* </ScrollView> */}
     </View>
   );
 };

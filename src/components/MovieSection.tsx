@@ -86,7 +86,6 @@ export default MovieSectionList;
 
 const styles = StyleSheet.create({
   movieContainer: {
-    marginBottom: 20,
     justifyContent: 'space-between',
     gap: 10,
     paddingLeft: 10,
