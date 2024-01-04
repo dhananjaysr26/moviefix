@@ -48,7 +48,7 @@ const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
   };
 
   const sections: any = data.map(item => ({
-    title: item.year.toString(),
+    title: item.year?.toString() || 'WishList',
     data: item.movies?.results?.map(movie => ({
       ...movie,
       key: movie.id.toString(),
@@ -58,7 +58,7 @@ const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
   return (
     <SectionList
       sections={sections}
-      keyExtractor={(item, index) => item.id.toString() + index}
+      keyExtractor={(item, index) => item.id?.toString() + index}
       renderItem={({item, index, section}) => (
         <RenderTwoColumn item={item} index={index} section={section} />
       )}
@@ -78,6 +78,7 @@ const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
       progressViewOffset={100}
       refreshing={false}
       onEndReachedThreshold={0.5}
+      onStartReachedThreshold={1}
     />
   );
 };

@@ -44,13 +44,15 @@ const HomeScreen = () => {
       </View> */}
       {/* <ScrollView style={styles.container}> */}
       {/* {isFetchingPreviousPage && <SkeletonLoader />} */}
-      {data?.pages && (
+      {data?.pages ? (
         <MovieSectionList
           data={data.pages}
           handlePageChange={handlePageChange}
         />
+      ) : (
+        <SkeletonLoader />
       )}
-      {/* {isFetchingNextPage && <SkeletonLoader />} */}
+      {isFetchingNextPage && <SkeletonLoader />}
       {/* </ScrollView> */}
     </View>
   );

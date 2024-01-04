@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   View,
   Image,
@@ -8,6 +8,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+  addOrRemoveFromList,
+  getWatchListFromStorage,
+} from '../lib/localStorage';
 
 const {width} = Dimensions.get('window');
 
@@ -17,6 +21,38 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({item}) => {
   const [isLiked, setIsLiked] = useState(false);
+
+  const checkLikedStatus = useCallback(async () => {
+    try {
+      const watchList = await getWatchListFromStorage();
+      // console.log({watchList});
+      // console.log('===>', item.key);
+      if (watchList) {
+        const isItemLiked = watchList.some(
+          (movie: any) => item.key === movie.key,
+        );
+
+        // console.log({item: item.key, isItemLiked});
+        setIsLiked(isItemLiked);
+      }
+    } catch (error) {
+      console.error('Error checking liked status:', error);
+    }
+  }, [item]);
+
+  useEffect(() => {
+    const checkWatchList = async () => {
+      // console.log('RUN');
+      await checkLikedStatus();
+    };
+    checkWatchList();
+  }, []);
+
+  const AddOrRemoveWatchList = async () => {
+    addOrRemoveFromList(item);
+    setIsLiked(prev => !prev);
+  };
+
   return (
     <TouchableOpacity>
       <View style={[styles.card, {width: width / 2 - 16}]}>
@@ -28,7 +64,7 @@ const MovieCard: React.FC<MovieCardProps> = ({item}) => {
         />
         {/* Liked Button */}
         <View style={styles.likeButton}>
-          <TouchableOpacity onPress={() => setIsLiked(pre => !pre)}>
+          <TouchableOpacity onPress={AddOrRemoveWatchList}>
             <Icon
               name="heart"
               color={isLiked ? '#f0283c' : '#e6e9ed'}
