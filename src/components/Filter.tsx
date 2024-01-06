@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import {useGenreContext} from '../../provider/MoviesProvider';
 
 interface GENRE {
   id: number;
@@ -15,21 +16,54 @@ interface FilterProps {
   genres: GENRE[];
 }
 
+const FilterItem = ({
+  genre,
+  isSelected,
+  onPress,
+  additionalStyles = {},
+}: {
+  genre: GENRE;
+  isSelected: boolean;
+  onPress: (genre: GENRE) => void;
+  additionalStyles?: any;
+}) => {
+  return (
+    <TouchableOpacity
+      onPress={() => onPress(genre)}
+      key={genre.id}
+      style={[
+        styles.filterItem,
+        isSelected && styles.active,
+        additionalStyles,
+      ]}>
+      <Text style={styles.filterText}>{genre.name}</Text>
+    </TouchableOpacity>
+  );
+};
+
 const Filter: React.FC<FilterProps> = ({genres}) => {
-  const active = 'All';
+  const {selectedGenre, setSelectedGenre} = useGenreContext();
+  const handleOnPressFilter = (genre: GENRE) => {
+    setSelectedGenre(genre);
+  };
+
   return (
     <View style={styles.filterContainer}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {genres.map((genre: GENRE, index: number) => (
-          <TouchableOpacity
+        <FilterItem
+          key={0}
+          onPress={handleOnPressFilter}
+          isSelected={selectedGenre?.id === 0}
+          genre={{id: 0, name: 'All'}}
+          additionalStyles={styles.firstList}
+        />
+        {genres.map((genre: GENRE) => (
+          <FilterItem
             key={genre.id}
-            style={[
-              styles.filterItem,
-              active === genre.name && styles.active,
-              index === 0 && styles.firstList,
-            ]}>
-            <Text style={styles.filterText}>{genre.name}</Text>
-          </TouchableOpacity>
+            onPress={handleOnPressFilter}
+            isSelected={genre.id === selectedGenre?.id}
+            genre={genre}
+          />
         ))}
       </ScrollView>
     </View>

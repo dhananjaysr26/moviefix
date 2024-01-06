@@ -5,8 +5,11 @@ import {useGetMovies} from '../services/useMovies';
 import Header from '../components/Header';
 import MovieSectionList from '../components/MovieSection';
 import SkeletonLoader from '../components/SkeletonLoader';
+import {useGenreContext} from '../../provider/MoviesProvider';
+import {queryClient} from '../../App';
 
 const HomeScreen = () => {
+  const {selectedGenre} = useGenreContext();
   const {
     data,
     hasNextPage,
@@ -16,7 +19,8 @@ const HomeScreen = () => {
     isFetchingNextPage,
     isFetchingPreviousPage,
     isFetching,
-  } = useGetMovies();
+    queryKey,
+  } = useGetMovies(selectedGenre);
 
   const handlePageChange = useCallback(
     (direction: 'previous' | 'next') => {
@@ -34,6 +38,9 @@ const HomeScreen = () => {
       fetchNextPage,
     ],
   );
+  const onRefresh = () => {
+    queryClient.invalidateQueries({queryKey});
+  };
 
   return (
     <View style={styles.container}>
@@ -48,6 +55,7 @@ const HomeScreen = () => {
         <MovieSectionList
           data={data.pages}
           handlePageChange={handlePageChange}
+          onRefresh={onRefresh}
         />
       ) : (
         <SkeletonLoader />

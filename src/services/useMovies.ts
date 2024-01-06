@@ -1,7 +1,11 @@
 import {useInfiniteQuery, useQuery} from '@tanstack/react-query';
 import {THEMOVIEDB_API_BASE_URL, THEMOVIEDB_API_KEY} from '@env';
+import {Genre} from '../types/movies';
+import {useEffect} from 'react';
+import {queryClient} from '../../App';
 
-export const useGetMovies = () => {
+export const useGetMovies = (genre: Genre | null = null) => {
+  const queryKey = ['fetchMovies', genre?.id];
   const {
     data,
     error,
@@ -14,11 +18,18 @@ export const useGetMovies = () => {
     hasPreviousPage,
     fetchPreviousPage,
   } = useInfiniteQuery({
-    queryKey: ['fetchMovies'],
+    queryKey,
     queryFn: async ({pageParam}: any) => {
-      // console.log({pageParam});
+      // console.log(
+      //   `${'https://api.themoviedb.org/3'}/discover/movie?api_key=${'2dca580c2a14b55200e784d157207b4d'}&sort_by=popularity.desc&primary_release_year=${pageParam}&page=1&vote_count.gte=100&${
+      //     genreIds ? 'with_genres=' + genreIds : ''
+      //   }`,
+      // );
+
       return fetch(
-        `${'https://api.themoviedb.org/3'}/discover/movie?api_key=${'2dca580c2a14b55200e784d157207b4d'}&sort_by=popularity.desc&primary_release_year=${pageParam}&page=1&vote_count.gte=100`,
+        `${'https://api.themoviedb.org/3'}/discover/movie?api_key=${'2dca580c2a14b55200e784d157207b4d'}&sort_by=popularity.desc&primary_release_year=${pageParam}&page=1&vote_count.gte=100&${
+          genre !== null && genre.id !== 0 ? 'with_genres=' + genre.id : ''
+        }`,
       ).then(async response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -50,6 +61,12 @@ export const useGetMovies = () => {
     },
     initialPageParam: 2012,
   });
+  // console.log('==>>>>>>>>', {genre, queryKey});
+
+  useEffect(() => {
+    queryClient.invalidateQueries({queryKey});
+  }, [genre]);
+
   return {
     data,
     error,
@@ -61,6 +78,7 @@ export const useGetMovies = () => {
     hasPreviousPage,
     fetchPreviousPage,
     isFetchingPreviousPage,
+    queryKey,
   };
 };
 

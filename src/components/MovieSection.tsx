@@ -28,9 +28,14 @@ interface MovieData {
 interface Props {
   data: {year: number; movies: MovieData}[];
   handlePageChange: (direction: 'previous' | 'next') => void;
+  onRefresh: Function;
 }
 
-const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
+const MovieSectionList: React.FC<Props> = ({
+  data,
+  handlePageChange,
+  onRefresh,
+}) => {
   const renderSectionHeader = (props: any) => {
     return (
       <View style={styles.sectionHeader}>
@@ -74,7 +79,7 @@ const MovieSectionList: React.FC<Props> = ({data, handlePageChange}) => {
       }}
       ListEmptyComponent={EmptyCard}
       //   TODO:Reset Function
-      onRefresh={() => console.log('Refresh')}
+      onRefresh={() => onRefresh()}
       progressViewOffset={100}
       refreshing={false}
       onEndReachedThreshold={0.5}
