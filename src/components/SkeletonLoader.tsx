@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Loader from '../common/Loader';
+import {colors} from '../utils/colors';
 
 const SkeletonLoader = () => {
   const skeletonData = [{key: '1'}, {key: '2'}, {key: '3'}, {key: '4'}];
@@ -10,7 +11,7 @@ const SkeletonLoader = () => {
     <View style={styles.skeletonCard}>
       <Loader width={'100%'} height={196} style={styles.poster} />
       <View style={styles.likeButton}>
-        <Icon name="heart" color={'gray'} size={24} />
+        <Icon name="heart" color={'#eecece'} size={24} />
       </View>
       <View style={styles.details}>
         <Loader width={'100%'} height={20} style={styles.titleText} />
@@ -32,7 +33,7 @@ const SkeletonLoader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 20,
+    paddingVertical: 20,
     width: '100%',
     flex: 1,
     gap: 10,
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#504A4B',
   },
   skeletonCard: {
-    backgroundColor: 'gray',
+    backgroundColor: colors.skeletonColor,
     height: 250,
     flex: 1,
     borderRadius: 10,
@@ -52,8 +53,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 6,
     position: 'absolute',
+    backgroundColor: 'white',
     width: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     bottom: 0,
     borderRadius: 10,
     borderBottomRightRadius: 10,
@@ -62,11 +63,11 @@ const styles = StyleSheet.create({
   },
   titleText: {
     flex: 1,
-    backgroundColor: 'gray',
+    backgroundColor: colors.skeletonText,
   },
   starText: {
     width: '40%',
-    backgroundColor: 'gray',
+    backgroundColor: colors.skeletonText,
   },
   likeButton: {
     position: 'absolute',
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     right: 5,
   },
   poster: {
-    backgroundColor: 'brown',
+    backgroundColor: colors.skeletonColor,
     borderTopLeftRadius: 10,
     borderBottomLeftRadius: 10,
   },
