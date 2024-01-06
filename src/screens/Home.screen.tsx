@@ -24,9 +24,12 @@ const HomeScreen = () => {
 
   const handlePageChange = useCallback(
     (direction: 'previous' | 'next') => {
-      if (direction === 'previous' && hasPreviousPage && !isFetching) {
+      if (isFetching) {
+        return;
+      }
+      if (direction === 'previous' && hasPreviousPage) {
         fetchPreviousPage();
-      } else if (direction === 'next' && hasNextPage && !isFetching) {
+      } else if (direction === 'next' && hasNextPage) {
         fetchNextPage();
       }
     },

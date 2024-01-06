@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {SectionList, StyleSheet, Text, View} from 'react-native';
 import RenderTwoColumn from './RenderTwoColumn';
 
@@ -36,6 +36,19 @@ const MovieSectionList: React.FC<Props> = ({
   handlePageChange,
   onRefresh,
 }) => {
+  const [enableStartFetch, setEnableStartFetch] = useState(false);
+
+  const onViewableItemsChanged = useRef(
+    ({viewableItems}: {viewableItems: any}) => {
+      // console.log({viewableItems});
+      const indices = viewableItems.map((item: any) => item.index);
+      const largestIndex = Math.max(...indices);
+      if (!enableStartFetch && largestIndex >= 4) {
+        setEnableStartFetch(true);
+      }
+    },
+  ).current;
+
   const renderSectionHeader = (props: any) => {
     return (
       <View style={styles.sectionHeader}>
@@ -59,7 +72,7 @@ const MovieSectionList: React.FC<Props> = ({
       key: movie.id.toString(),
     })),
   }));
-
+  // console.log('===========>', enableStartFetch);
   return (
     <SectionList
       sections={sections}
@@ -74,8 +87,14 @@ const MovieSectionList: React.FC<Props> = ({
         handlePageChange('next');
       }}
       onStartReached={() => {
-        console.log('Start Reached!');
-        // handlePageChange('previous');
+        console.log('Start Reached!', {
+          length: data.length,
+          enableStartFetch,
+        });
+        if (enableStartFetch) {
+          handlePageChange('previous');
+          setEnableStartFetch(false);
+        }
       }}
       ListEmptyComponent={EmptyCard}
       //   TODO:Reset Function
@@ -84,6 +103,7 @@ const MovieSectionList: React.FC<Props> = ({
       refreshing={false}
       onEndReachedThreshold={0.5}
       onStartReachedThreshold={1}
+      onViewableItemsChanged={onViewableItemsChanged}
     />
   );
 };
