@@ -12,15 +12,18 @@ import {
   addOrRemoveFromList,
   getWatchListFromStorage,
 } from '../lib/localStorage';
+import {useIsFocused} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
 interface MovieCardProps {
   item: any;
+  isLikeCallBack?: () => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({item}) => {
+const MovieCard: React.FC<MovieCardProps> = ({item, isLikeCallBack}) => {
   const [isLiked, setIsLiked] = useState(false);
+  const isFocused = useIsFocused();
 
   const checkLikedStatus = useCallback(async () => {
     try {
@@ -46,10 +49,18 @@ const MovieCard: React.FC<MovieCardProps> = ({item}) => {
       await checkLikedStatus();
     };
     checkWatchList();
-  }, []);
+  }, [isFocused]);
 
   const AddOrRemoveWatchList = async () => {
-    addOrRemoveFromList(item);
+    try {
+      await addOrRemoveFromList(item);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      if (isLikeCallBack) {
+        isLikeCallBack();
+      }
+    }
     setIsLiked(prev => !prev);
   };
 

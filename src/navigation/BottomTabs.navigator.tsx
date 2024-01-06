@@ -38,7 +38,6 @@ const BottomTabs = () => {
           tabBarIcon: ({focused}) => (
             <Icon name="heart" color={focused ? '#f0283c' : 'gray'} size={24} />
           ),
-          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -48,7 +47,6 @@ const BottomTabs = () => {
           tabBarIcon: ({focused}) => (
             <Icon name="user" color={focused ? '#f0283c' : 'gray'} size={24} />
           ),
-          headerShown: false,
         }}
       />
     </Tab.Navigator>

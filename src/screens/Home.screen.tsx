@@ -51,7 +51,7 @@ const HomeScreen = () => {
       </View> */}
       {/* <ScrollView style={styles.container}> */}
       {/* {isFetchingPreviousPage && <SkeletonLoader />} */}
-      {/* {data?.pages ? (
+      {data?.pages ? (
         <MovieSectionList
           data={data.pages}
           handlePageChange={handlePageChange}
@@ -59,8 +59,8 @@ const HomeScreen = () => {
         />
       ) : (
         <SkeletonLoader />
-      )} */}
-      {isFetchingNextPage || (true && <SkeletonLoader />)}
+      )}
+      {isFetchingNextPage && <SkeletonLoader />}
       {/* </ScrollView> */}
     </View>
   );

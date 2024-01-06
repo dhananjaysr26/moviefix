@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {colors} from '../utils/colors';
 
 const ProfileScreen = () => {
   return (
@@ -17,5 +18,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     color: 'black',
+    backgroundColor: colors.containerBg,
   },
 });
