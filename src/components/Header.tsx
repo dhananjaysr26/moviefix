@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Filter from './Filter';
 import {useGetMoviesGenres} from '../services/useMovies';
+import FilterSkeletonLoader from './FilterSkeletonLoader';
 
 interface HeaderProps {}
 const Header: React.FC<HeaderProps> = () => {
@@ -13,7 +14,7 @@ const Header: React.FC<HeaderProps> = () => {
       <View style={styles.header}>
         <Text style={styles.text}>MOVIEFIX</Text>
       </View>
-      {!isLoading && <Filter genres={data?.genres} />}
+      {isLoading ? <FilterSkeletonLoader /> : <Filter genres={data?.genres} />}
     </View>
   );
 };
