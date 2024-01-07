@@ -1,6 +1,8 @@
 # Mooviz React Native App
 >A comprehensive movie hub, offering a vast collection and detailed information on movies and tv shows, akin to IMDB.
 
+[Watch Overview Video (Click to Play)](https://cdn.jsdelivr.net/gh/dhananjaysr26/my-cdn@main/projects/mooviz/mooviz-overview.mp4)
+
 
 To start the project
 1. Create .env file to the root Directory
