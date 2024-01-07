@@ -16,8 +16,8 @@ const ProfileScreen = () => {
   const isFocused = useIsFocused();
 
   const user = {
-    username: 'John Doe',
-    email: 'johndoe@example.com',
+    username: 'Dhananjay Singh',
+    email: 'dhananjaysr26@gmail.com',
     profileImage: 'https://via.placeholder.com/150',
     coverPhoto: 'https://images.unsplash.com/photo-1504805572947-34fad45aed93',
   };

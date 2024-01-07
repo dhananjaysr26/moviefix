@@ -20,6 +20,7 @@ export const useGetMovies = (genre: Genre | null = null) => {
   } = useInfiniteQuery({
     queryKey,
     queryFn: async ({pageParam}: any) => {
+      // console.log({pageParam});
       // console.log(
       //   `${'https://api.themoviedb.org/3'}/discover/movie?api_key=${'2dca580c2a14b55200e784d157207b4d'}&sort_by=popularity.desc&primary_release_year=${pageParam}&page=1&vote_count.gte=100&${
       //     genreIds ? 'with_genres=' + genreIds : ''
@@ -42,11 +43,14 @@ export const useGetMovies = (genre: Genre | null = null) => {
       });
     },
     getNextPageParam: (lastPage, allPages) => {
-      // console.log({lastPage, allPages});
-      if (allPages.length === 0) {
+      if (lastPage && lastPage.movies && lastPage.movies.results.length === 0) {
         return undefined;
       }
-      const nextPageParam = 2012 + allPages.length;
+      if (allPages.length === 0) {
+        return 2013;
+      }
+      const lastYear = lastPage.year;
+      const nextPageParam = lastYear + 1;
 
       return nextPageParam;
     },
@@ -55,10 +59,12 @@ export const useGetMovies = (genre: Genre | null = null) => {
       if (allPages.length === 0) {
         return undefined;
       }
-      const nextPageParam = 2012 - allPages.length;
+
+      const nextPageParam = (allPages[0].year ?? 2012) - 1;
 
       return nextPageParam;
     },
+
     initialPageParam: 2012,
   });
   // console.log('==>>>>>>>>', {genre, queryKey});

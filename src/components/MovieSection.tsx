@@ -59,8 +59,8 @@ const MovieSectionList: React.FC<Props> = ({
 
   const EmptyCard = () => {
     return (
-      <View>
-        <Text>Movies Not Available</Text>
+      <View style={{flex: 1}}>
+        <Text style={{color: 'while'}}>Movies Not Available</Text>
       </View>
     );
   };
@@ -72,7 +72,7 @@ const MovieSectionList: React.FC<Props> = ({
       key: movie.id.toString(),
     })),
   }));
-  // console.log('===========>', enableStartFetch);
+  console.log('===========>', enableStartFetch);
   return (
     <SectionList
       sections={sections}
@@ -83,8 +83,15 @@ const MovieSectionList: React.FC<Props> = ({
       renderSectionHeader={renderSectionHeader}
       contentContainerStyle={styles.movieContainer}
       onEndReached={() => {
-        console.log('End Reached!');
-        handlePageChange('next');
+        // console.log(
+        //   'End Reached!',
+        //   new Date().getFullYear() + 1,
+        //   data[data.length - 1].year,
+        // );
+
+        if (data[data.length - 1].year < new Date().getFullYear() + 1) {
+          handlePageChange('next');
+        }
       }}
       onStartReached={() => {
         console.log('Start Reached!', {
