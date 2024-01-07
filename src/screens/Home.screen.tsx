@@ -7,6 +7,7 @@ import MovieSectionList from '../components/MovieSection';
 import SkeletonLoader from '../components/SkeletonLoader';
 import {useGenreContext} from '../../provider/MoviesProvider';
 import {queryClient} from '../../App';
+import ActivityLoader from '../common/ui/ActivityLoader';
 
 const HomeScreen = () => {
   const {selectedGenre} = useGenreContext();
@@ -53,7 +54,7 @@ const HomeScreen = () => {
         <AppButton onPress={() => handlePageChange('next')} title=">" />
       </View> */}
       {/* <ScrollView style={styles.container}> */}
-      {/* {isFetchingPreviousPage && <SkeletonLoader />} */}
+      {isFetchingPreviousPage && <ActivityLoader />}
       {data?.pages ? (
         <MovieSectionList
           data={data.pages}
@@ -63,7 +64,7 @@ const HomeScreen = () => {
       ) : (
         <SkeletonLoader />
       )}
-      {isFetchingNextPage && <SkeletonLoader />}
+      {isFetchingNextPage && <ActivityLoader />}
       {/* </ScrollView> */}
     </View>
   );
