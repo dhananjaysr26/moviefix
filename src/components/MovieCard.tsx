@@ -89,6 +89,10 @@ const MovieCard: React.FC<MovieCardProps> = ({item, isLikeCallBack}) => {
         <View style={styles.details}>
           <Text style={styles.text}>{item.title}</Text>
           <Text style={styles.text}>⭐ {item.vote_average + '/' + 10}</Text>
+          <Text style={styles.text}>{`${item.overview.substring(
+            0,
+            20,
+          )}...`}</Text>
         </View>
       </View>
     </TouchableOpacity>
