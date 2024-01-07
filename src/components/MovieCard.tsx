@@ -12,7 +12,7 @@ import {
   addOrRemoveFromList,
   getWatchListFromStorage,
 } from '../lib/localStorage';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 const {width} = Dimensions.get('window');
 
@@ -24,6 +24,7 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({item, isLikeCallBack}) => {
   const [isLiked, setIsLiked] = useState(false);
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
   const checkLikedStatus = useCallback(async () => {
     try {
@@ -65,7 +66,8 @@ const MovieCard: React.FC<MovieCardProps> = ({item, isLikeCallBack}) => {
   };
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('MovieDetails', {item})}>
       <View style={[styles.card, {width: width / 2 - 16}]}>
         <Image
           source={{

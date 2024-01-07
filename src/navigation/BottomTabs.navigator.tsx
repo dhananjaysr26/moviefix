@@ -1,17 +1,17 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import HomeScreen from '../screens/Home.screen';
 import WatchListScreen from '../screens/WatchList.screen';
 import ProfileScreen from '../screens/Profile.screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import StackNavigator from './Stack.navigator';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Stack"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
         tabBarShowLabel: true,
@@ -22,8 +22,8 @@ const BottomTabs = () => {
         },
       }}>
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Stack"
+        component={StackNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => (

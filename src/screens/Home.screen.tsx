@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-
+import {StyleSheet, View} from 'react-native';
 import {useGetMovies} from '../services/useMovies';
 import Header from '../components/Header';
 import MovieSectionList from '../components/MovieSection';
@@ -49,11 +48,6 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Header />
-      {/* <View style={styles.buttons}>
-        <AppButton onPress={() => handlePageChange('previous')} title="<" />
-        <AppButton onPress={() => handlePageChange('next')} title=">" />
-      </View> */}
-      {/* <ScrollView style={styles.container}> */}
       {isFetchingPreviousPage && <ActivityLoader />}
       {data?.pages ? (
         <MovieSectionList
@@ -65,7 +59,6 @@ const HomeScreen = () => {
         <SkeletonLoader />
       )}
       {isFetchingNextPage && <ActivityLoader />}
-      {/* </ScrollView> */}
     </View>
   );
 };
