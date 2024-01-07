@@ -57,7 +57,7 @@ const Filter: React.FC<FilterProps> = ({genres}) => {
           genre={{id: 0, name: 'All'}}
           additionalStyles={styles.firstList}
         />
-        {genres.map((genre: GENRE) => (
+        {genres?.map((genre: GENRE) => (
           <FilterItem
             key={genre.id}
             onPress={handleOnPressFilter}
