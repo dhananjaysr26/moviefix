@@ -22,7 +22,7 @@ const BottomTabs = () => {
         },
       }}>
       <Tab.Screen
-        name="Stack"
+        name="Home"
         component={StackNavigator}
         options={{
           headerShown: false,
