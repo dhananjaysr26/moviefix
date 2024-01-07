@@ -11,6 +11,7 @@ import {getWatchListFromStorage} from '../lib/localStorage';
 import MovieCard from '../components/MovieCard';
 import {useIsFocused} from '@react-navigation/native';
 import {colors} from '../utils/colors';
+import EmptyWishList from '../components/EmptyWishList';
 
 const WatchListScreen = () => {
   const [wishListData, setWishListData] = useState([]);
@@ -41,11 +42,7 @@ const WatchListScreen = () => {
   }
 
   if (!loading && wishListData.length === 0) {
-    return (
-      <View style={styles.container}>
-        <Text>Watch List is Empty!</Text>
-      </View>
-    );
+    return <EmptyWishList />;
   }
 
   return (
@@ -89,5 +86,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: 'space-between',
     gap: 10,
+  },
+  emptyText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 10,
   },
 });
