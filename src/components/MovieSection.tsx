@@ -72,7 +72,7 @@ const MovieSectionList: React.FC<Props> = ({
       key: movie.id.toString(),
     })),
   }));
-  console.log('===========>', enableStartFetch);
+  // console.log('===========>', enableStartFetch);
   return (
     <SectionList
       sections={sections}
@@ -105,7 +105,7 @@ const MovieSectionList: React.FC<Props> = ({
       }}
       ListEmptyComponent={EmptyCard}
       //   TODO:Reset Function
-      onRefresh={() => onRefresh()}
+      // onRefresh={() => onRefresh()}
       progressViewOffset={100}
       refreshing={false}
       onEndReachedThreshold={0.5}

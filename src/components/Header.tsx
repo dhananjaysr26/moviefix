@@ -12,7 +12,7 @@ const Header: React.FC<HeaderProps> = () => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.header}>
-        <Text style={styles.text}>MOVIEFIX</Text>
+        <Text style={styles.text}>MOOVIZ</Text>
       </View>
       {isLoading ? <FilterSkeletonLoader /> : <Filter genres={data?.genres} />}
     </View>
