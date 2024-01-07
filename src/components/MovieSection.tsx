@@ -94,10 +94,10 @@ const MovieSectionList: React.FC<Props> = ({
         }
       }}
       onStartReached={() => {
-        console.log('Start Reached!', {
-          length: data.length,
-          enableStartFetch,
-        });
+        // console.log('Start Reached!', {
+        //   length: data.length,
+        //   enableStartFetch,
+        // });
         if (enableStartFetch) {
           handlePageChange('previous');
           setEnableStartFetch(false);

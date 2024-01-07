@@ -1,11 +1,27 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, Image, ScrollView, StyleSheet} from 'react-native';
 import {colors} from '../utils/colors';
 import {formatDate} from '../utils/helper/date';
+import {getOttProviders} from '../services/movies.services';
+import OttProvider from '../components/OTTProvider';
 
 const MovieDetailsScreen = ({route}: any) => {
   const {item: movie} = route.params;
+  const [providers, setProviders] = useState([]);
 
+  useEffect(() => {
+    const fetchOttProviders = async () => {
+      try {
+        const res = await getOttProviders(movie.id);
+        setProviders(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (movie?.id) {
+      fetchOttProviders();
+    }
+  }, [movie]);
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -37,6 +53,12 @@ const MovieDetailsScreen = ({route}: any) => {
         <View style={styles.overview}>
           <Text style={styles.overviewTitle}>Overview</Text>
           <Text style={styles.overviewText}>{movie.overview}</Text>
+        </View>
+        <View style={styles.ott}>
+          <Text style={styles.available}>Available On:</Text>
+          {providers?.map((provider: any) => (
+            <OttProvider key={provider.provider_id} provider={provider} />
+          ))}
         </View>
       </ScrollView>
     </View>
@@ -111,6 +133,15 @@ const styles = StyleSheet.create({
   overviewText: {
     fontSize: 16,
   },
+  ott: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: 15,
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  available: {color: 'white', fontWeight: 'bold'},
 });
 
 export default MovieDetailsScreen;
