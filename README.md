@@ -28,7 +28,7 @@ THEMOVIEDB_API_BASE_URL=https://api.themoviedb.org/3
 ```
 2. Install the dependencies
 ```bash
-npm install
+npm install --force
 ```
 3. Start the project then press a to run on android
 ```bash
